@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <defName>mo_heated_up</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Heated Up</label>
+    <description>This pawn had recent orgasms - they will come quicker in succession.</description>
+    <defaultLabelColor>(240,200,110)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.6</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+    
+      <li>
+        <label>none</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+
+      <li>
+        <label>minor</label>
+        <minSeverity>0.1</minSeverity>
+        <becomeVisible>false</becomeVisible>
+        <statOffsets>
+            <Vulnerability>0.2</Vulnerability>
+            <SexFrequency>0.1</SexFrequency>
+        </statOffsets>
+      </li>
+      
+      <li>
+        <label>major</label>
+        <minSeverity>0.6</minSeverity>
+        <becomeVisible>false</becomeVisible>
+        <statOffsets>
+            <Vulnerability>0.3</Vulnerability>
+            <SexFrequency>0.2</SexFrequency>
+        </statOffsets>
+      </li>
+      <li>
+        <label>aheago</label>
+        <minSeverity>0.9</minSeverity>
+        <becomeVisible>true</becomeVisible>
+        <statOffsets>
+            <Vulnerability>0.3</Vulnerability>
+            <SexFrequency>0.4</SexFrequency>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+
+  <HediffDef>
+    <defName>mo_drained</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Drained</label>
+    <description>This pawn had recent orgasms - they need a bit of rest.</description>
+    <defaultLabelColor>(240,200,110)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>none</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <label>minor</label>
+        <minSeverity>0.2</minSeverity>
+        <becomeVisible>false</becomeVisible>
+        <statOffsets>
+          <SexFrequency>-0.05</SexFrequency>
+        </statOffsets>
+      </li>
+      
+      <li>
+        <label>major</label>
+        <minSeverity>0.6</minSeverity>
+        <becomeVisible>false</becomeVisible>
+        <statOffsets>
+          <SexFrequency>-0.1</SexFrequency>
+        </statOffsets>
+
+      </li>
+      <li>
+        <label>empty</label>
+        <minSeverity>0.9</minSeverity>
+        <becomeVisible>true</becomeVisible>
+        <statOffsets>
+          <SexFrequency>-0.2</SexFrequency>
+        </statOffsets>
+
+      </li>
+    </stages>
+  </HediffDef>
+
+
+
+</Defs>
