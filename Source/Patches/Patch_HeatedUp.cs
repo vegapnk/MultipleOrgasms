@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Multipleorgasm.Settings;
 using RimWorld;
 using rjw;
 using System;
@@ -16,42 +17,62 @@ namespace Multipleorgasm.Patches
     public static class Patch_HeatedUp
     {
 
-        private const float SEVERITY_INCREASE_PER_ORGASM_HEATED = 0.1f;
-        private const float SEVERITY_INCREASE_PER_ORGASM_DRAINED = 0.15f;
-
-        private const int MINIMUM_TICKS_TO_COME = 180; //180 Ticks = 3 Seconds at normal speed
 
         public static void Postfix(JobDriver_Sex __instance)
         {
             Pawn orgasmingPawn = __instance.pawn;
             if (orgasmingPawn != null && !orgasmingPawn.IsAnimal())
             {
-                if (Genital_Helper.has_vagina(orgasmingPawn)) { 
-                    var heatedUpHediff = GetHeatedUpHediff(orgasmingPawn);
+                // Case 1: Handle All that should speed up
+                if (
+                    (Genital_Helper.is_futa(orgasmingPawn) && MultipleOrgasmsSettings.futaBehavior == MultipleOrgasmsSettings.Behavior.SpeedUp)
+                    || (Genital_Helper.has_penis_fertile(orgasmingPawn) && MultipleOrgasmsSettings.maleBehavior == MultipleOrgasmsSettings.Behavior.SpeedUp)
+                    || (Genital_Helper.has_penis_infertile(orgasmingPawn) && MultipleOrgasmsSettings.maleBehavior == MultipleOrgasmsSettings.Behavior.SpeedUp)
+                    || (Genital_Helper.has_vagina(orgasmingPawn) && MultipleOrgasmsSettings.femaleBehavior == MultipleOrgasmsSettings.Behavior.SpeedUp)
+                    )
+                    HeatUpPawn(orgasmingPawn, __instance);
 
-                    if (__instance.orgasms > 0 &&  heatedUpHediff.Severity < 1.0)
-                    {
-                        heatedUpHediff.Severity += SEVERITY_INCREASE_PER_ORGASM_HEATED;
-                    }
-                    // Adjust Time
-                    float orgasm_time_reduction = Math.Max(1.0f - heatedUpHediff.Severity, 0.25f);
-                    __instance.sex_ticks = (int)(__instance.sex_ticks * orgasm_time_reduction);
-                    // Backup: Do not break your game, lol
-                    if (__instance.sex_ticks < MINIMUM_TICKS_TO_COME)
-                        __instance.sex_ticks = MINIMUM_TICKS_TO_COME;
+                // Case 2: Handle all that should slow down
+                if (
+                    (Genital_Helper.is_futa(orgasmingPawn) && MultipleOrgasmsSettings.futaBehavior == MultipleOrgasmsSettings.Behavior.SlowDown)
+                    || (Genital_Helper.has_penis_fertile(orgasmingPawn) && MultipleOrgasmsSettings.maleBehavior == MultipleOrgasmsSettings.Behavior.SlowDown)
+                    || (Genital_Helper.has_penis_infertile(orgasmingPawn) && MultipleOrgasmsSettings.maleBehavior == MultipleOrgasmsSettings.Behavior.SlowDown)
+                    || (Genital_Helper.has_vagina(orgasmingPawn) && MultipleOrgasmsSettings.femaleBehavior == MultipleOrgasmsSettings.Behavior.SlowDown)
+                    )
+                    DrainPawn(orgasmingPawn, __instance);
 
-                } else if (Genital_Helper.has_penis_fertile(orgasmingPawn)) {
-                    var drainedHediff = GetDrainedHediff(orgasmingPawn);
-
-                    if (__instance.orgasms > 0 && drainedHediff.Severity < 1.0)
-                    {
-                        drainedHediff.Severity += SEVERITY_INCREASE_PER_ORGASM_DRAINED;
-                    }
-                    float orgasm_time_increase = 1.0f + drainedHediff.Severity;
-                    __instance.sex_ticks = (int)(__instance.sex_ticks * orgasm_time_increase);
-                }
+                // Case 3: Pawns sex and/or target-behavior are none, no heat up or drain
             }
 
+        }
+
+
+        public static void HeatUpPawn(Pawn pawn, JobDriver_Sex sexInstance)
+        {
+            var heatedUpHediff = GetHeatedUpHediff(pawn);
+
+            if (sexInstance.orgasms > 0 && heatedUpHediff.Severity < 1.0)
+            {
+                heatedUpHediff.Severity += MultipleOrgasmsSettings.heatup_severity_increase_per_orgasm;
+            }
+            // Adjust Time
+            float orgasm_time_reduction = Math.Max(1.0f - heatedUpHediff.Severity, 0.25f);
+            sexInstance.sex_ticks = (int)(sexInstance.sex_ticks * orgasm_time_reduction);
+            // Backup: Do not break your game, lol
+            if (sexInstance.sex_ticks < (int) MultipleOrgasmsSettings.min_ticks_to_orgasm)
+                sexInstance.sex_ticks = (int) MultipleOrgasmsSettings.min_ticks_to_orgasm;
+        }
+
+        public static void DrainPawn(Pawn pawn, JobDriver_Sex sexInstance)
+        {
+            var drainedHediff = GetDrainedHediff(pawn);
+
+            if (sexInstance.orgasms > 0 && drainedHediff.Severity < 1.0)
+            {
+                drainedHediff.Severity += MultipleOrgasmsSettings.drained_severity_increase_per_orgasm;
+            }
+            float orgasm_time_increase = 1.0f + drainedHediff.Severity;
+            sexInstance.sex_ticks = (int)(sexInstance.sex_ticks * orgasm_time_increase);
         }
 
 
