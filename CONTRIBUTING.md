@@ -12,3 +12,7 @@ But please consider also the following:
 * Please try to make an issue with your idea first or ping me (Vegapnk)
 * Keep commit messages on the topic and meaningful
 * Give me some time to review things. I can either mod, play or have a life. 
+
+## Image Credits
+
+- The Preview was done with [Yodayo](https://yodayo.com/) and then edited by me
