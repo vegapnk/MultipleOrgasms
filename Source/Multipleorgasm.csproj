@@ -29,7 +29,7 @@
     </Reference>
     <Reference Include="1SettingsHelper">
       <HintPath>..\Dependencies\SettingsHelper\Assemblies\1SettingsHelper.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
