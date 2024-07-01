@@ -1,0 +1,3 @@
+[submodule "Dependencies/SettingsHelper"]
+	path = Dependencies/SettingsHelper
+	url = https://github.com/Canonov/SettingsHelper.git
