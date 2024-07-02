@@ -9,5 +9,20 @@
 Adds hediffs that manipulate orgasm-speed. 
 Configurable for futa, male and female separate.
 	</description>
+	<modDependencies>
+		<li>
+			<packageId>rim.job.world</packageId>
+			<displayName>RimJobWorld</displayName>
+			<downloadUrl>https://www.loverslab.com/files/file/7257-rimjobworld/</downloadUrl>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+		<li>Ludeon.RimWorld.Royalty</li>
+		<li>Ludeon.RimWorld.Ideology</li>
+		<li>Ludeon.RimWorld.Biotech</li>
+		<li>rim.job.world</li>
+		<li>brrainz.harmony</li>
+	</loadAfter>
 	<url>https://github.com/vegapnk/MultipleOrgasms</url>
 </ModMetaData>
